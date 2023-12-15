@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'profile.css' %}">
+
+<section>
+    <div class="container-fluid">
+        <h3 style="font-size: 40px; font-weight: 700; text-align: center; margin-bottom: 50px;">My Orders</h3>
+        {% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}" style="color: rgb(0, 0, 0);" {% endif %}>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Order Id</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Total Price</th>
+                    <th scope="col">Paid Status</th>
+                    <th scope="col">Order Status</th>
+                    <th scope="col">Action</th>
+                    <th scope="col">Delete</th>
+                    <th scope="col">Invoice</th>
+
+
+
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <th scope="row">{{ order.id }}</th>
+                    <td>{{ order.order_date }}</td>
+                    <td>{{ order.price }}</td>
+                    {% if order.paid_status == True %}
+                    <td><i class="fa-solid fa-circle-check text-success"></i></td>
+                    {% else %}
+                    <td><i class="fa-solid fa-circle-xmark text-danger"></i></td>
+                    {% endif %}
+                    {% if order.product_status == 'processing' or order.product_status == 'shipped' %}
+                    <td><i class="fa-solid fa-truck-fast"></i></td>
+                    {% else %}
+                    <td><i class="fa-solid fa-circle-check"></i></td>
+                    {% endif %}
+                    <td><a href="{% url 'order_detail' order.id %}"><button class="btn btn-outline-dark">View</button></a></td>
+                    <td>
+                        {% if order.is_rejected == True %}
+                            <p>This order cant be Proceed</p>
+                            <form action="{% url 'cancel_order' order.id %}" method="post">
+                                {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-dark">Cancel</button>
+                            </form>
+                        {% else %}
+                            {% if order.product_status == 'delivered' %}
+                                <a style="text-decoration: none;" href="{% url 'refund_order' order.id %}"><button class="btn btn-outline-dark">Return</button></a>
+                                {% if order.status == 'refund_requested' %}
+                                    <p>Refund Requested</p>
+                                {% elif order.status == 'refund_approved' %}
+                                    <a style="text-decoration: none;" href="{% url 'approve_refund' order.id %}"><button class="btn btn-outline-dark">Confirm Refund</button></a>
+                                {% elif order.status == 'refund_successful' %}
+                                    <p>Refund Successful</p>
+                                {% endif %}
+                            {% else %}
+                                {% if order.paid_status %}
+                                    <a style="text-decoration: none;" href="{% url 'refund_order' order.id %}"><button class="btn btn-outline-dark">Refund</button></a>
+                                    {% if order.status == 'refund_requested' %}
+                                        <p>Refund Requested</p>
+                                    {% elif order.status == 'refund_approved' %}
+                                        <a style="text-decoration: none;" href="{% url 'approve_refund' order.id %}"><button class="btn btn-outline-dark">Confirm Refund</button></a>
+                                    {% elif order.status == 'refund_successful' %}
+                                        <p>Refund Successful</p>
+                                    {% endif %}
+                                {% else %}
+                                    <form action="{% url 'cancel_order' order.id %}" method="post">
+                                    {% csrf_token %}
+                                        <button type="submit" class="btn btn-outline-dark">Cancel</button>
+                                    </form>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                    <td><a href="{% url 'user_invoice' order.id %}"><button class="btn btn-outline-dark">Invoice</button></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+{% endblock content%}

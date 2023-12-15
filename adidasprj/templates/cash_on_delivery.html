@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+{% load static %}
+
+<div class="icon" style="text-align: center; font-size: 20rem;">
+    <h2 style="font-weight: 600; font-size: 40px;">Order Placed Successfully</h2>
+    <i class="fa-solid fa-circle-check text-success"></i>
+</div>
+<div class="home" style="text-align: center;">
+    <a href="{% url 'home' %}" class="btn btn-dark w-95 border mt-2" style="margin-left: 15px;"> Back to shop </a>
+</div>
+
+{% endblock content%}

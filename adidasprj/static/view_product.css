@@ -1,0 +1,67 @@
+.product-grid{
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+}
+.product-grid .product-image{
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+.product-grid .product-image a.image{display: block; }
+.product-grid .product-image img{
+    width: 100%;
+    height: auto;
+}
+.centered-text h3{
+    text-align: center;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 50px;
+    font-weight: 650 !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.centered-text h5{
+    text-align: center;
+    margin-top: -25px;
+    font-size: 50px;
+    font-weight: 650 !important;
+    padding-top: 10px;
+    margin-bottom: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.centered-text .price h6{
+    font-size: 25px;
+    margin-left: 12rem;
+    margin-top: 15px;
+    font-weight: 400;
+    margin-top: 15px !important;
+    color: rgb(139, 139, 139);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+}
+.centered-text .price h5{
+    font-size: 40px;
+    margin-left: -7.5rem;
+    margin-top: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+}
+.centered-text .price h5 span{
+    font-size: 25px;
+    font-weight: 400;
+    color: rgb(139, 139, 139);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-left: 10px;
+}
+.centered-text .add-bag{
+    margin-left: 11rem;
+    margin-top: 15px;
+    padding: 25px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+}
+
+
+
+
+

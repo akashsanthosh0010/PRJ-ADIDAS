@@ -1,0 +1,31 @@
+/* custom_admin.css */
+/* Customize button style */
+.submit-row input[type="submit"] {
+    background-color: #ffffff; /* Default background color */
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    border: black;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Add a smooth transition effect */
+}
+
+/* Change background color on hover */
+.submit-row input[type="submit"]:hover {
+    background-color: #000000; /* New background color on hover */
+    color: #ffffff;
+}
+
+/* Customize font style */
+body {
+    font-family: 'Arial', sans-serif;
+}
+.btn-success{
+    background-color: #ffffff !important;
+    border: #000000 !important;
+    color: #000000 !important;
+}
+.btn-success :hover{
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}

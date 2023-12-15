@@ -1,0 +1,35 @@
+{% extends 'admin_base.html' %}
+
+{% block content%}
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <div class="title" style="padding: 15px; text-align: center;">
+            <h3 style="display: inline-block; margin-right: 10px;">Top Categories</h3>
+            <a href="{% url 'add_top_category' %}"><input type="submit" value="Add" class="btn btn-outline-success" style="display: inline-block; float: right;"></a>
+        </div>
+        <div class="table">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">title</th>
+                        <th scope="col">TCID</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for f in form %}
+                        <tr>
+                            <th scope="row">{{ f.id }}</th>
+                            <td><a href="{% url 'edit_top_category' f.id %}">{{ f.title }}</a></td>
+                            <td>{{ f.tcid }}</td>
+                            <td><a href="{% url 'delete_top_category' f.id %}"><button class="btn btn-outline-danger btn-md">Delete</button></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock content%}

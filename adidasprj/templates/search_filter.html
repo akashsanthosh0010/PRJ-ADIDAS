@@ -1,0 +1,23 @@
+{% for p in products %}
+<div class="col-md-4 col-sm-3">
+    <div class="product-grid" style="padding: 10px;">
+        <div class="product-image">
+            <a href="#" class="image">
+                    img src="{{ p.image.url }}">
+            </a>
+                                
+            <span class="product-discount-label">-{{ p.get_percentage | floatformat:0 }}%</span>
+            <ul class="product-links">
+                    li><a href="{% url 'view_product' p.pid %}" class="add-to-cart-btn" data-index="" id="add-to-cart-btn"><i class="fa fa-cart-shopping"></i></a></li>
+                <li><a href="#"><i class="fa fa-heart"></i></a></li>
+            </ul>
+            <a href="" class="add-to-cart"><span>$</span><span class="current-product-price-{{ p.id }}">{{ p.price }}</span> <span style="text-decoration: line-through; font-size: 13px;">${{ p.old_price }}</span></a>
+        </div>
+        <div class="product-content">
+            <h3 class="title" style="text-align: left;"><a href="{% url 'view_product' p.pid %}">{{ p.title }}</a></h3>
+                            
+            <h6 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: left; font-size: 15px;">{{ p.description }}</h6>
+        </div>
+    </div>
+</div>
+{% endfor %}

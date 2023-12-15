@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'profile.css' %}">
+
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4" style="background-color: rgb(248, 248, 247); margin-left: 100px;">
+                <div class="name" style="margin-top: 20px;">
+                    <h6 style="font-size: 20px; color: rgb(97, 97, 97);">Hey,</h6>
+                    <h5 style="font-size: 30px; margin-left: 50px; font-weight: 600;">{{ request.user | title }}</h5>
+                </div>
+                <div class="orders">
+                    <a style="text-decoration: none; color: black;" href="{% url 'order_list' %}"><h6 style="font-size: 30px;  margin-left:10rem; margin-top: 3rem; color:rgb(97, 97, 97);">Your Orders <i class="fa fa-arrow-right" style="margin-left: 20px; color: black;"></i></h6></a>
+                </div>
+                <br>
+                <hr>
+                <div class="setting">
+                    <h6 style="font-size: 30px; margin-top: 3rem; color:rgb(97, 97, 97);"><i class="fa-solid fa-user" style="color: black; margin-left: 3rem;"></i> <span style="margin-left: 3rem;">Account Settings</span></h6>
+                    <div class="user-profile">
+                        <a style="text-decoration: none; color: black;" href="{% url 'user_profile' %}"><h6 style="font-size: 20px; margin-top: 3rem; margin-left: 10rem;">User Profile</h6></a>
+                    </div>
+                    <div class="manage-address">
+                        <a style="text-decoration: none; color: black;" href="{% url 'user_address' %}"><h6 style="font-size: 20px; margin-top: 2rem; margin-left: 10rem;">Manage Address</h6></a>
+                    </div>
+                    <div class="manage-address">
+                        <a style="text-decoration: none; color: black;" href="{% url 'change_password' %}"><h6 style="font-size: 20px; margin-top: 2rem; margin-left: 10rem;">Change Password</h6></a>
+                    </div>
+                    <div class="manage-address">
+                        <a style="text-decoration: none; color: black;" href="{% url 'wallet' %}"><h6 style="font-size: 20px; margin-top: 2rem; margin-left: 10rem;">Your Wallet</h6></a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-6" style="margin-left: 50px; background-color: rgb(248, 248, 247);">
+                <div class="contents" style="margin-left: 80px;">
+                    <div class="title" style="padding: 10px;">
+                        <h3 style="font-size: 30px; font-weight: 700; text-align: center; margin-right: 8rem; margin-bottom: 20px; margin-top: 10px;">User Profile</h3>
+                    </div>
+                    <form class="row g-4" style="margin-top: 25px; padding-right: 100px;" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="inputAddress" class="form-label" style="font-size: 20px; font-weight: 500;">First Name</label>
+                                <input type="text" class="form-control" id="inputAddress" value="{{ user.f_name }}" name="f_name" style="width: 250px;">
+                            </div>
+                            <div class="col-4">
+                                <label for="inputAddress" class="form-label" style="font-size: 20px; font-weight: 500;">Last Name</label>
+                                <input type="text" class="form-control" id="inputAddress" name="s_name" value="{{ user.s_name }}" style="width: 250px;">
+                            </div>
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="inputPassword4" class="form-label" style="font-size: 20px; font-weight: 500;">Email</label>
+                            <input type="email" class="form-control" id="inputPassword4" value="{{ user.email }}" name="email" style="width: 350px;">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="inputZip" class="form-label" style="font-size: 20px; font-weight: 500;">Phone No</label>
+                            <input type="text" class="form-control" id="text" name="phone_no" value="{{ user.phone_no }}" style="width: 350px;">
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-outline-success" style="margin-bottom: 20px;">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content%}

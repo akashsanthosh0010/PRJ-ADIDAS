@@ -1,0 +1,25 @@
+{% extends 'admin_base.html' %}
+
+{% block content%}
+
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <div class="title" style="padding: 20px; text-align: center; font-size: 35px; font-weight: 600; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+            <h4>Edit Main Categories</h4>
+        </div>
+        <br><br>
+        <form action="" method="post">
+            {% csrf_token %}
+        
+            {{ form.as_p }}
+            <br><br>
+        
+            <input type="submit" value="Save" class="btn btn-success">
+
+        </form>
+    </div>
+</div>
+
+
+
+{% endblock content%}

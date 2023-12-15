@@ -1,0 +1,47 @@
+.icon-hover-primary:hover {
+    border-color: #3b71ca !important;
+    background-color: white !important;
+  }
+  
+  .icon-hover-primary:hover i {
+    color: #3b71ca !important;
+  }
+  .icon-hover-danger:hover {
+    border-color: #dc4c64 !important;
+    background-color: white !important;
+  }
+  
+  .icon-hover-danger:hover i {
+    color: #dc4c64 !important;
+  }
+  h3{
+    font-size: 40px;
+    color: #000000;
+    font-weight: 800;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  h6{font-size: 20px;
+    color: #6f6e6e;
+    font-weight: 500;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+  }
+h6 span{
+    color: #000000;
+    font-family: 600;
+    
+}
+p{
+    font-size: 20px;
+    color: #000000;
+    font-weight: 500;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.checkout {
+  color: #000000 !important;
+}
+.checkout :hover{
+    color: #000000 !important;
+    background-color: white !important;
+
+}

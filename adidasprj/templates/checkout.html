@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+
+<section>
+    <div class="container">
+        <div class="top" style="text-align: center; margin-bottom: 60px; margin-top: -15px; color: black;">
+            <h3 style="font-size: 40px; font-weight: 700;">CheckOut</h3>
+            <h5 style="color:rgb(92, 92, 92);">({{ totalcartitems }} Item)<span style="margin-left: 10px; color: black;">${{ cart_total_amount | floatformat:2}}</span></h5>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="container-fluid">
+                    <h3 style="font-size: 35px; font-weight: 500;">Billing Address <span><a href="{% url 'user_address' %}"><button class="btn btn-outline-dark" style="margin-left: 20px;">Edit</button></a></span></h3>
+                </div>
+                <div class="billing" style="margin-top: 40px; margin-left: 15px;">
+                    <h5 style="font-size: 25px; margin-bottom: 8px; color: rgb(77, 77, 77);">{{ active_address.name }}</h5>
+                    <h5 style="font-size: 25px; margin-bottom: 8px; color: rgb(77, 77, 77);">{{ active_address.email }}</h5>
+                    <h5 style="font-size: 25px; margin-bottom: 8px; color: rgb(77, 77, 77);">{{ active_address.address}}</h5>
+                    <h5 style="font-size: 25px; margin-bottom: 8px; color: rgb(77, 77, 77);">{{ active_address.city }}, {{ user_details.landmark }}</h5>
+                    <h5 style="font-size: 25px; margin-bottom: 8px; color: rgb(77, 77, 77);">{{ active_address.phone_no }} </h5>
+                </div>
+                <br><br><br>
+                <div class="payment">
+                    <h4 style="margin-bottom: 50px; font-size: 35px; font-weight: 500;">Payment Methods</h4>
+                    <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
+                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off" checked>
+                        <label class="btn btn-outline-dark" for="vbtn-radio1"><span style="font-size: 20px; font-weight: 600; margin-left: -38px;">UPI</span><span><img style="width: 100px; height: auto; margin-left: 250px;" src="/static/images/upi.png" alt="" srcset=""></span></label>
+                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
+                        <label class="btn btn-outline-dark" for="vbtn-radio2"><span style="font-size: 20px; font-weight: 600; margin-left: 20px;">Credit Card</span><span><img style="width: 100px; height: 50px; margin-left: 250px;" src="/static/images/visa.png" alt="" srcset=""></span></label>
+                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
+                        <label class="btn btn-outline-dark" for="vbtn-radio3"><span style="font-size: 20px; font-weight: 600; margin-left: 20px;">Net Banking</span><span style="font-size: 35px; margin-left: 250px;"><i class="fa fa-bank"></i></span></label>
+                        <!-- <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio4" autocomplete="off">
+                        <label class="btn btn-outline-dark" for="vbtn-radio4"><span style="font-size: 20px; font-weight: 600; margin-left: 20px;">Cash On Delivery</span><span style="font-size: 35px; margin-left: 250px;"><i class="fa fa-dollar"></i></span></label> -->
+                    </div>
+                    <br> <br>
+                    <div class="submit-btn">
+                        <button name="payment_button_click" class="btn btn-outline-dark" style="margin-left: 7rem;">{{ paypal_payment_button.render }}</button>
+                    </div>
+                </div>
+                <h4 style="padding: 20px; margin-left: 10rem;">OR</h4>
+                <div class="cash" style="margin-left: 7rem;">
+                    <a href="{% url 'cash_on_delivery' %}" class="btn btn-dark w-95 border mt-2" style="margin-left: 15px;"> Cash On Delivery</a>
+                    
+                </div>
+            </div>
+            <div class="col-lg-4" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                <div class="title">
+                    <h3 style="font-size: 35px; font-weight: 500;">Your cart</h3>
+                <h6 style="font-size: 25px; padding: 10px; margin-top: 3rem; color: rgb(92, 92, 92);">{{ totalcartitems }} Item <span style="margin-left: 10rem;">${{ cart_total_amount | floatformat:2}}</span></h6>
+                <h6 style="font-size: 25px; margin-left: 9px; color:rgb(92, 92, 92);">Delivery <span style="margin-left: 10rem;">Free</span></h6>
+                <br>
+                <hr>
+                <h6 style="font-size: 25px; margin-left: 9px; color:rgb(0, 0, 0) ;">Total <span style="margin-left: 11rem;">${{ cart_total_amount | floatformat:2}}</span></h6>
+                <p style="font-size: 20px;font-weight: 500; color:rgb(92, 92, 92);">(Inclusive of all taxes)</p>
+                </div>
+                <br><br>
+                {% for p_id, item in cart_data.items %}
+                <div class="card-product">
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-6">
+                                <img src="{{ item.image }}" class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-body" style="text-align: center;">
+                                    <a style="text-decoration: none; color: black;" href="{% url 'view_product' item.pid %}"><h5 class="card-title" style="font-size: 20px;">{{ item.title }}</h5></a>
+                                    <h6 style="font-size: 20px; margin-top: 20px; margin-left: -35px; color:rgb(92, 92, 92);">Quantity : <span style="color: black;">{{ item.qty }}</span></h6>
+                                    <h6 style="font-size: 20px; margin-top: 20px; margin-left: -13px; color:rgb(92, 92, 92);">Price : <span style="color: black;">${{ item.price }}</span></h6>
+                                    <h6 style="font-size: 20px; margin-top: 20px; margin-left: -13px; color:rgb(92, 92, 92);">Total : <span style="color: black;">${% widthratio item.price 1 item.qty %}</span></h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

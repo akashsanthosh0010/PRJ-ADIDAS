@@ -1,0 +1,64 @@
+/* Navbar styling */
+.navbar {
+    padding: 1px; /* Add padding to the navbar */
+    
+    
+}
+
+/* Navbar brand logo styling */
+.navbar-brand {
+    margin-right: 1rem; /* Add margin to the right of the brand logo */
+    
+}
+.header-logo{
+    width: 4.5rem;
+    margin-left: 25px;
+}
+
+/* Navbar items styling */
+.navbar-nav {
+    display: flex;
+    align-items: center;
+}
+.navbar-nav .nav-item a{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    font-weight: 600;
+    color: black !important;
+    text-decoration: none !important;
+    
+}
+
+.sports a.nav-link {
+    color: #ff0000 !important; /* Change to your desired color code */
+}
+
+.nav-item {
+    padding: 20px;
+    margin-left: 15px;
+}
+
+/* Search form styling */
+.search-container {
+    position: relative;
+    width: 18rem;
+    margin-left: 40px;
+    margin-top: 10px !important;
+    border-radius: none !important;
+}
+
+.icons i {
+    position: absolute;
+    top: 50%;
+    right: 10px; /* Adjust the right position as needed */
+    transform: translateY(-50%);
+    color: #080808; /* Adjust the color as needed */
+}
+.nav-item .fa-solid{
+    font-size: 25px;
+    margin-left: 1rem;
+    color: black;
+}
+.dropdown-menu{
+    width: 200px !important;
+}
+

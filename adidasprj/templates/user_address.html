@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'profile.css' %}">
+
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4" style="background-color: rgb(248, 248, 247); margin-left: 100px;">
+                <div class="name" style="margin-top: 20px;">
+                    <h6 style="font-size: 20px; color: rgb(97, 97, 97);">Hey,</h6>
+                    <h5 style="font-size: 30px; margin-left: 50px; font-weight: 600;">{{ request.user | title }}</h5>
+                </div>
+                <div class="orders">
+                    <a style="text-decoration: none; color: black;" href="{% url 'order_list' %}"><h6 style="font-size: 30px;  margin-left:10rem; margin-top: 3rem; color:rgb(97, 97, 97);">Your Orders <i class="fa fa-arrow-right" style="margin-left: 20px; color: black;"></i></h6></a>
+                </div>
+                <br>
+                <hr>
+                <div class="setting">
+                    <h6 style="font-size: 30px; margin-top: 3rem; color:rgb(97, 97, 97);"><i class="fa-solid fa-user" style="color: black; margin-left: 3rem;"></i> <span style="margin-left: 3rem;">Account Settings</span></h6>
+                    <div class="user-profile">
+                        <a style="text-decoration: none; color: black;" href="{% url 'user_profile' %}"><h6 style="font-size: 20px; margin-top: 3rem; margin-left: 10rem;">User Profile</h6></a>
+                    </div>
+                    <div class="manage-address">
+                        <a style="text-decoration: none; color: black;" href=""><h6 style="font-size: 20px; margin-top: 2rem; margin-left: 10rem;">Manage Address</h6></a>
+                    </div>
+                    <div class="manage-address">
+                        <a style="text-decoration: none; color: black;" href="{% url 'change_password' %}"><h6 style="font-size: 20px; margin-top: 2rem; margin-left: 10rem;">Change Password</h6></a>
+                    </div>
+                    <div class="manage-address">
+                        <a style="text-decoration: none; color: black;" href="{% url 'wallet' %}"><h6 style="font-size: 20px; margin-top: 2rem; margin-left: 10rem;">Your Wallet</h6></a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-6" style="margin-left: 50px; background-color: rgb(248, 248, 247);">
+                <div class="contents" style="margin-left: 80px;">
+                    <div class="title" style="padding: 10px;">
+                        <h3 style="font-size: 30px; font-weight: 700; text-align: center; margin-right: 8rem; margin-bottom: 20px; margin-top: 10px;">Billing Address</h3>
+                    </div>
+                    <form class="row g-4" style="margin-top: 25px; padding-right: 100px;" method="post">
+                        {% csrf_token %}
+                        <h4>Create New Address</h4>
+                        <div class="col-md-6">
+                            <label for="inputEmail4" class="form-label">Name</label>
+                            <input type="text" name="name" value="" class="form-control" id="inputEmail4">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputPassword4" class="form-label">Email</label>
+                            <input type="email" name="email" value="" class="form-control" id="inputPassword4">
+                        </div>
+                        <div class="col-6">
+                            <label for="inputAddress" class="form-label">Address</label>
+                            <input type="text" name="address" class="form-control" value="" id="inputAddress" placeholder="1234 Main St">
+                        </div>
+                        <div class="col-6">
+                            <label for="inputAddress2" class="form-label">Landmark</label>
+                            <input type="text" name="landmark" class="form-control" value="" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputCity" class="form-label">City</label>
+                            <input type="text" name="city" value="" class="form-control" id="inputCity">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputZip" class="form-label">Phone No</label>
+                            <input type="tel" name="phone_no" value="" class="form-control" id="inputZip">
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-outline-success">Save <i style="margin-left: 5px;" class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="row" >
+                    {% for user in user_details %}
+                    <div class="col-md-6" style="margin-left: 5rem; margin-top: 2rem;">
+                        <h4>Address {{ forloop.counter }} 
+                            {% if user.status %}
+                            <span style="margin-left: 4rem;">
+                                <i data-address-id="{{ user.id }}" style="margin-left: -3rem;" class="fa-solid fa-circle-check check{{ user.id }} check"></i>
+                                <button data-address-id="{{ user.id }}" style="margin-left: 1rem; display: none;" class="btn btn-outline-dark make-default-address button{{ user.id }} action_btn">Make Default</button>
+                            </span>
+                            {% else %}
+                            <span>
+                                <i style="margin-left: 1rem; display: none;" data-address-id="{{ user.id }}" class="fa-solid fa-circle-check check{{ user.id }} check"></i>
+                                <button data-address-id="{{ user.id }}" style="margin-left: 3rem;" class="btn btn-outline-dark make-default-address button{{ user.id }} action_btn">Make Default</button>
+                            </span>
+                            {% endif %}
+                        </h4>
+                        <div class="billing" style="margin-top: 30px; margin-left: 15px;">
+                            <h5 style="font-size: 25px; margin-bottom: 8px; color: rgb(77, 77, 77);">{{ user.name }}</h5>
+                            <h5 style="font-size: 25px; margin-bottom: 8px; color: rgb(77, 77, 77);">{{ user.email }}</h5>
+                            <h5 style="font-size: 25px; margin-bottom: 8px; color: rgb(77, 77, 77);">{{ user.address}}</h5>
+                            <h5 style="font-size: 25px; margin-bottom: 8px; color: rgb(77, 77, 77);">{{ user.city }}, {{ user.landmark }}</h5>
+                            <h5 style="font-size: 25px; margin-bottom: 8px; color: rgb(77, 77, 77);">{{ user.phone_no }} </h5>
+                        </div>
+                        <div class="delete" style="margin-top: 20px;">
+                            <a style="margin-left: 15px;" href="{% url 'delete_address' user.id %}"><button class="btn btn-outline-dark">Delete</button></a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content%}

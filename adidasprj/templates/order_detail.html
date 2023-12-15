@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'profile.css' %}">
+
+<section>
+    <div class="container-fluid">
+        <h3 style="font-size: 40px; font-weight: 700; text-align: center; margin-bottom: 50px;">My Orders</h3>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Order Id</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total Price</th>
+                    <th scope="col">Action</th>
+
+
+
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <th scope="row">{{ product.id }}</th>
+                    <td>{{ product.item }}</td>
+                    <td><img style="width: 40px; height: auto;" src="{{ product.image }}" alt="" srcset=""></td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.qty }}</td>
+                    <td>{{ product.total_price }}</td>
+                    <form action="{% url 'delete_order_product' product.id %}" method="post">
+                        {% csrf_token %}
+                        <td><button class="btn btn-outline-dark" type="submit">Delete</button></td>
+                    </form>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+{% endblock content%}

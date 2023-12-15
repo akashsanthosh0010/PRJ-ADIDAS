@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock title %}
+
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'product.css' %}">
+<style>
+    .range-form {
+  width: 400px;
+  margin: auto;
+  padding: 50px;
+}
+
+.range-slider {
+  -webkit-appearance: none;
+  /* Override default CSS styles */
+  appearance: none;
+  width: 100%;
+  /* Full-width */
+  height: 10px;
+  border-radius: 5px;
+  /* Specified height */
+  background: #d3d3d3;
+  /* Grey background */
+  outline: none;
+  /* Remove outline */
+  opacity: 0.7;
+  /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s;
+  /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+  &:hover {
+    opacity: 1;
+    /* Fully shown on mouse-over */
+  }
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    /* Override default look */
+    appearance: none;
+    width: 18px;
+    /* Set a specific slider handle width */
+    height: 18px;
+    /* Slider handle height */
+    background: #4CAF50;
+    /* Green background */
+    cursor: pointer;
+    /* Cursor on hover */
+    border-radius: 50%;
+  }
+  &::-moz-range-thumb {
+    width: 18px;
+    /* Set a specific slider handle width */
+    height: 18px;
+    /* Slider handle height */
+    background: #4CAF50;
+    /* Green background */
+    cursor: pointer;
+    /* Cursor on hover */
+  }
+}
+
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="title">
+                <h1 style="text-align: center;">Filters</h1>
+            </div>
+            <br>
+            <div class="price-slider" style="margin-left: 20px;">
+                <h3 style="padding: 10px;">By Price</h3>
+                <form class="range-form" style="margin-left: -25px; margin-top: -50px;">
+                    <div class="form-group row">
+                        <div class="col-md-9">
+                            <label for="formControlRange"></label>
+                            <input type="range" min="{{ min_max_price.price__min }}" name="range" max="{{ min_max_price.price__max }}" value="{{ min_max_price.price__min|floatformat:2 }}" oninput="max_price.value=this.value" class="form-control-range range-slider slider-range" id="range">
+                        </div>
+                        <!-- <div class="col-md-3">
+                            <span id="demo">0</span>
+                        </div> -->
+                    </div>
+                    <br>
+                    <input style="width: 10rem;" class="form-control" value="{{ min_max_price.price__min|floatformat:2 }}" type="number" id="max_price" min="{{ min_max_price.price__min }}" max="{{ min_max_price.price__max }}" placeholder="Current Price" onkeyup="range.value=this.value">
+                    
+                    <!-- <h3>{{ min_max_price }}</h3> -->
+                </form>
+                <div class="costume-checkbox">
+                    <button class="btn btn-outline-dark" type="button" style="margin-top: -35px; margin-left: 25px;" id="price-filter-btn">Filter</button>
+                </div>
+            </div>
+            <br>
+            <div class="row" style="margin-left: 20px;">
+                <h3 style="padding: 10px;">By Category</h3>
+                {% for c in cat %}
+                <div class="form-check">
+                    <input class="form-check-input filter-checkbox" data-filter="category"  type="checkbox" name="checkbox" value="{{ c.id }}" id="examplecheckbox1">
+                    <label class="form-check-label" for="examplecheckbox1">
+                        {{ c.title }}
+                    </label>
+                </div>     
+                <br><br>
+                {% endfor %}   
+            </div> 
+        </div>
+        <div class="col-md-8">
+            <div class="row" id="filtered-product">
+        {% if query %}
+                {% for p in products %}
+                <div class="col-md-4 col-sm-3">
+                    <div class="product-grid" style="padding: 10px;">
+                        <div class="product-image">
+                            <a href="#" class="image">
+                                <img src="{{ p.image.url }}">
+                            </a>
+                                
+                            <span class="product-discount-label">-{{ p.get_percentage | floatformat:0 }}%</span>
+                            <ul class="product-links">
+                                <li><a href="{% url 'view_product' p.pid %}" class="add-to-cart-btn" data-index="" id="add-to-cart-btn"><i class="fa fa-cart-shopping"></i></a></li>
+                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                            </ul>
+                            <a href="" class="add-to-cart"><span>$</span><span class="current-product-price-{{ p.id }}">{{ p.price }}</span> <span style="text-decoration: line-through; font-size: 13px;">${{ p.old_price }}</span></a>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title" style="text-align: left;"><a href="{% url 'view_product' p.pid %}">{{ p.title }}</a></h3>
+                            
+                            <h6 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: left; font-size: 15px;">{{ p.description }}</h6>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        {% else %}
+            <div class="col-md-12">
+                <h1 style="padding: 100px; text-align: center;">No Results Found</h1>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+
+<!-- <script>
+    var slider = document.getElementById("myRange");
+var output = document.getElementById("demo");
+output.innerHTML = slider.value; // Display the default slider value
+
+// Update the current slider value (each time you drag the slider handle)
+slider.oninput = function() {
+    output.innerHTML = this.value;
+}
+</script> -->
+
+
+{% endblock content%}

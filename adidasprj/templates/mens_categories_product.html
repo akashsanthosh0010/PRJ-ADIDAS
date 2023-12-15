@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        {% for item in mens_category %}
+            <div class="col-md-3 col-sm-6 d-flex justify-content-center align-items-center">
+                <div class="product-grid">
+                    <div class="card" style="width: 250px; height: 400px;">
+                        <img src="{{ item.image.url }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            
+                            <a style="text-decoration: none; color: black;" href="{% url 'main_categories_product' item.title %}"><p class="card-text" style="font-size: 25px; font-weight: 600; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">{{ item.title }}</p></a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

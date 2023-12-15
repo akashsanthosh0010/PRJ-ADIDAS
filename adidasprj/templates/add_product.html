@@ -1,0 +1,23 @@
+{% extends 'admin_base.html' %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="container-fluid">
+      <div class="title" style="padding: 15px; text-align: center;">
+        <h3>Add Products</h3>
+      </div>
+      <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+  
+        
+        {{ form.as_p }}
+        <br><br>
+  
+        <input type="submit" value="Save" class="btn btn-outline-success">
+  
+  
+      </form>
+    </div>
+  </div>
+
+{% endblock content %}
