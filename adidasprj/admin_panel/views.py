@@ -101,37 +101,6 @@ def sales_report_csv(request):
     return response
 
 
-# def sales_report_pdf(request):
-#     buf = io.BytesIO()
-#     c = canvas.Canvas(buf, pagesize=letter, bottomup=0)
-#     textob = c.beginText()
-#     textob.setTextOrigin(inch, inch)
-#     textob.setFont('Helvetica', 14)
-
-#     lines = []
-
-#     cart_order = CartOrderItems.objects.select_related('product','order').all()
-
-#     for order in cart_order:
-#         lines.append(order.product.title)
-#         lines.append(order.product.pid)
-#         lines.append(str(order.product.price))
-#         lines.append(order.order.product_status)
-#         lines.append('')
-
-
-#     for line in lines:
-#         textob.textLine(line)
-
-#     c.drawText(textob)
-#     c.showPage()
-#     c.save()
-#     buf.seek(0)
-
-
-#     return FileResponse(buf, as_attachment=True, filename='sales-report.pdf')
-
-
 def sales_report_pdf(request):
     buf = io.BytesIO()
     pdf = SimpleDocTemplate(buf, pagesize=letter)
@@ -327,7 +296,6 @@ def delete_product(request, id):
 
 def add_product(request):
     if request.method == 'POST':
-        print('hey bro')
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
@@ -380,7 +348,6 @@ def delete_product_attributes(request, id):
 
 def add_product_attributes(request):
     if request.method == 'POST':
-        print('hey bro')
         form = ProductAttributeForm(request.POST)
         if form.is_valid():
             form.save()

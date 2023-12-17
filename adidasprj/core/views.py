@@ -108,7 +108,6 @@ def request_otp(request):
             otp = generate_otp()
             send_otp_email(email, otp)
             request.session['generated_otp'] = otp
-            print(otp)
             request.session['email'] = email
             return redirect('verify_otp')
 
@@ -123,7 +122,6 @@ def resend_otp(request):
         otp = generate_otp()
         send_otp_email(email, otp)
         request.session['generated_otp'] = otp
-        print(otp)
         return redirect('verify_otp')
     else:
         # Handle the case when there is no email in the session
@@ -181,7 +179,7 @@ def login_user(request):
                     messages.error(request, "Referral code does not exist.")
                     return redirect(login_user)
             else:
-                print("No referral code provided.")
+                pass
 
             login(request, user)
             request.session['username'] = username
@@ -214,7 +212,6 @@ def forgot_password(request):
 
             # Send the reset password email
             reset_password_url = f"{settings.BASE_URL}/reset_password/?token={token}"
-            print(f"Sending password reset link to {user.email} with link {reset_password_url}")
             subject = 'Your Password Reset link'
             message = f'Your Password Reset link : {reset_password_url}'
             from_email = 'akashsanthosh0010@gmail.com'  # Replace with your email
@@ -308,7 +305,6 @@ def categories_product(request, title ):
 def search_view(request):
     query = request.GET.get('q')
     products = Product.objects.filter(title__icontains=query)
-    #print(products)
     
     context = {
         'products': products,
@@ -419,8 +415,6 @@ def apply_coupon(request):
 
 
                 cart_total_amount = request.session.get('cart_total_amount', 0)
-                print(f"Cart Total Amount: {cart_total_amount}")
-                print(f"Coupon Minimum Amount: {coupon.minimum_amount}")
 
                 # Check if the total cart amount is greater than the minimum amount required by the coupon
                 if cart_total_amount >= coupon.minimum_amount:
@@ -499,16 +493,6 @@ def user_address(request):
         city = request.POST.get('city')
 
 
-        # if user_details:
-        #     # Update existing address
-        #     user_details.name = name
-        #     user_details.address = address
-        #     user_details.phone_no = phone_no
-        #     user_details.city = city
-        #     user_details.landmark = landmark
-        #     user_details.email = email
-        #     user_details.save()
-        # else:
             # Create a new address
         new_address = Address.objects.create(
                 user=user,
@@ -597,10 +581,6 @@ def checkout_view(request):
                     total_price=float(item['qty']) * float(item['price'])
                 )
 
-            # order = CartOrder.objects.create(
-            # user=request.user,
-            # price=total_amount
-            # )
 
         host = request.get_host()
         paypal_dict = {
@@ -847,7 +827,6 @@ def approve_refund(request, order_id):
             # user = request.user
             wallet = Wallet.objects.get(user=order.user)
             wallet_balance_before = wallet.balance 
-            # wallet.balance += int(cart_total_amount)
             cart_total_amount_decimal = Decimal(cart_total_amount)
             formatted_cart_total = "{:.2f}".format(cart_total_amount_decimal)
             wallet.balance += Decimal(formatted_cart_total)
@@ -855,9 +834,6 @@ def approve_refund(request, order_id):
             order.status = 'refund_successful'
             order.save()
 
-            print(f'Wallet balance before: {wallet_balance_before}')
-            print(f'Order price: {order.price}')
-            print(f'Wallet balance after: {wallet.balance}')
 
             # No need to update the order status here, assuming it's already done by the admin
 
