@@ -61,8 +61,8 @@
             <form method="get" class="form-inline">
               <div class="form-group">
                 <select class="form-control" id="filterDropdown" name="filter">
-                  <option value="month" {% if filter_type=='month' %}selected{% endif %}>By Month</option>
-                  <option value="year" {% if filter_type=='year' %}selected{% endif %}>By Year</option>
+                  <option value="month" {% if filter_type == 'month' %}selected{% endif %}>By Month</option>
+                  <option value="year" {% if filter_type == 'year' %}selected{% endif %}>By Year</option>
                 </select>
               </div>
               <button type="submit" class="btn btn-primary">Apply</button>
