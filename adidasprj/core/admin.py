@@ -55,6 +55,7 @@ class WalletAdmin(admin.ModelAdmin):
 class OfferAdmin(admin.ModelAdmin):
     list_display = ['category', 'discount_amount', 'start_date']
 
+
 admin.site.register(Product, ProductAdmin)
 admin.site.register(TopCategory, TopCategoryAdmin)
 admin.site.register(MainCategory, MainCategoryAdmin)
