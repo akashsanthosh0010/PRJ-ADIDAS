@@ -276,11 +276,14 @@ def log_out(request):
 
 
 def view_product(request, pid):
-    product = Product.objects.get(pid=pid)
-    products = Product.objects.filter(category = product.category)
-    product_images = product.p_image.all()
-    context = {'product' : product, 'product_images':product_images, 'products':products}
-    return render(request,'product_detail.html', context)
+    try:
+        product = Product.objects.get(pid=pid)
+        products = Product.objects.filter(category = product.category)
+        product_images = product.p_image.all()
+        context = {'product' : product, 'product_images':product_images, 'products':products}
+        return render(request,'product_detail.html', context)
+    except Product.DoesNotExist:
+        return render(request, '404error.html')
 
 
 def top_categories_product(request, title ):
