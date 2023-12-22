@@ -304,6 +304,15 @@ def add_product(request):
     return render(request, 'add_product.html', {'form':form})
 
 
+def add_product_images(request):
+    form = ProductImageForm(request.POST, request.FILES)
+    context = {'form': form}
+    if form.is_valid():
+        form.save()
+        return redirect(admin_products)
+    return render(request, 'add_product_image.html', context)
+
+
 def add_top_category(request):
     form = TopCategoryForm(request.POST)
     context = {'form': form}
