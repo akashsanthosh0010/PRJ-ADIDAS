@@ -386,11 +386,12 @@ def cart_view(request):
     if 'cart_data_obj' in request.session:
         for p_id, item in request.session['cart_data_obj'].items():
             cart_total_amount += int(item['qty']) * float(item['price'])
-
-        cart_total_amount -= coupon_discount
+        
+        cart_total_amount_discount = cart_total_amount
+        cart_total_amount_discount -= coupon_discount
         request.session['cart_total_amount'] = cart_total_amount
 
-        return render(request,'product_cart.html', {'cart_data':request.session['cart_data_obj'], 'totalcartitems':len(request.session['cart_data_obj']), 'cart_total_amount':cart_total_amount, 'coupon_discount': coupon_discount,})
+        return render(request,'product_cart.html', {'cart_data':request.session['cart_data_obj'], 'totalcartitems':len(request.session['cart_data_obj']), 'cart_total_amount':cart_total_amount, 'coupon_discount': coupon_discount,'cart_total_amount_discount' : cart_total_amount_discount})
     else:
         return redirect (home_view)
     

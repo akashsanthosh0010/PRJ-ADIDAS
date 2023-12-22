@@ -98,11 +98,17 @@
             <p class="mb-2" style="color:  rgb(94, 94, 94);">Delivery</p>
             <p class="mb-2" style="margin-left: 15rem; color:  rgb(94, 94, 94);">Free</p>
           </div>
+          {% if 'applied_coupon' in request.session %}
+          <div class="d-flex justify-content-md-start">
+            <p class="mb-2" style="color:  rgb(94, 94, 94);">Discount</p>
+            <p class="mb-2" style="margin-left: 15rem; color:  rgb(94, 94, 94);">${{ coupon_discount }}</p>
+          </div>
+          {% endif %}
           <hr />
           <div class="d-flex justify-content-lg-start align-items-start">
             <p class="mb-2" style="color: rgb(0, 0, 0);">Total price:</p>
             <p class="mb-2 fw-bold" style="margin-left: 13rem; color: rgb(0, 0, 0);">
-              ${{ cart_total_amount | floatformat:2 }}</p>
+              ${{ cart_total_amount_discount | floatformat:2 }}</p>
           </div>
           <p style="color: rgb(94, 94, 94);">(Inclusive of all taxes)</p>
         </div>
