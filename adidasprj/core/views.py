@@ -108,7 +108,7 @@ def register_user(request):
                     messages.success(request, "Referral code successfully applied!")
                 else:
                     messages.error(request, "Referral code is already used.")
-                    return redirect('register_user')
+                    return redirect('register')
             except CustomUser.DoesNotExist:
                 messages.error(request, "Referral code does not exist.")
                 return redirect('register')
