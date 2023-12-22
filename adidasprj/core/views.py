@@ -555,13 +555,24 @@ def checkout_view(request):
 
         # If the user's address exists, proceed to create the order
         total_amount = 0
+        out_of_stock_products = []
 
         if 'cart_data_obj' in request.session:
             for p_id, item in request.session['cart_data_obj'].items():
-                total_amount += int(item['qty']) * float(item['price'])
                 product = Product.objects.get(id=p_id)
-                product.stock_count -= int(item['qty'])
-                product.save()
+                if product.stock_count <= 0:
+                    out_of_stock_products.append(product.title)
+                else:
+                    total_amount += int(item['qty']) * float(item['price'])
+                    product.stock_count -= int(item['qty'])
+                    product.save()
+
+            if out_of_stock_products:
+                messages.warning(
+                    request,
+                    f"The following products are out of stock: {', '.join(out_of_stock_products)}"
+                )
+                return redirect(cart_view)        
             order = CartOrder.objects.create(
                 user=request.user,
                 price=int(cart_total_amount)
