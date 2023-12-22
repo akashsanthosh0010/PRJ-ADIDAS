@@ -72,8 +72,10 @@ def auto_complete(request):
 def register_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
-        email  = request.POST.get('email')
+        email = request.POST.get('email')
         password = request.POST.get('password')
+        referral_code = request.POST.get('referral_code')
+
         try:
             # Attempt to create a new user
             my_user = CustomUser.objects.create_user(username, email, password)
@@ -83,14 +85,36 @@ def register_user(request):
             my_user.referral_code = generate_referral_code()
             my_user.referral_code_used = False
             my_user.save()
-
-            return redirect('request_otp')
+            
 
         except IntegrityError:
             # IntegrityError occurs when a user with the provided email already exists
             messages.warning(request, f"A user with {username} already exists.")
             return redirect('register')
-    return render(request,'register.html')
+
+        # Referral code checking (moved outside the except block)
+        user = authenticate(username=username, password=password)
+        if referral_code:
+            try:
+                referred_user = CustomUser.objects.get(referral_code=referral_code)
+                if not referred_user.referral_code_used:
+                    referred_user.wallet.balance += 100
+                    referred_user.wallet.save()
+                    referred_user.referral_code_used = True
+                    referred_user.save()
+                    user.wallet.balance += 100
+                    user.wallet.save()
+                    user.save()
+                    messages.success(request, "Referral code successfully applied!")
+                else:
+                    messages.error(request, "Referral code is already used.")
+                    return redirect('register_user')
+            except CustomUser.DoesNotExist:
+                messages.error(request, "Referral code does not exist.")
+                return redirect('register')
+            
+        return redirect('request_otp')    
+    return render(request, 'register.html')
 
 # views.py
 
@@ -147,40 +171,13 @@ from django.contrib import messages
 def login_user(request):
     if 'username' in request.session:
         return redirect(home_view)
-
+    
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        referral_code = request.POST.get('referral_code')
         user = authenticate(username=username, password=password)
 
         if user is not None and user.is_active and not user.is_blocked:
-            if referral_code:
-                try:
-                    referred_user = CustomUser.objects.get(referral_code=referral_code)
-
-                    if not referred_user.referral_code_used:
-
-                        referred_user.wallet.balance += 100
-                        referred_user.wallet.save()
-
-                        referred_user.referral_code_used = True
-                        referred_user.save()
-
-                        user.wallet.balance += 100
-                        user.wallet.save()
-                        user.save()
-
-                        messages.success(request, "Referral code successfully applied!")
-                    else:
-                        messages.error(request, "Referral code is already used.")
-                        return redirect(login_user)
-                except CustomUser.DoesNotExist:
-                    messages.error(request, "Referral code does not exist.")
-                    return redirect(login_user)
-            else:
-                pass
-
             login(request, user)
             request.session['username'] = username
             return redirect(home_view)
@@ -188,9 +185,6 @@ def login_user(request):
             messages.error(request, "Your account is blocked. Please contact support.")
         else:
             messages.error(request, "Your username and password didn't match.")
-
-        return render(request, 'login.html', {'username': username})
-
     return render(request, 'login.html')
 
 
