@@ -578,6 +578,7 @@ def checkout_view(request):
                 user=request.user,
                 price=int(cart_total_amount)
             )
+            request.session['order_id'] = order.id
             for p_id, item in request.session['cart_data_obj'].items():
 
                 cart_order_product = CartOrderItems.objects.create(
@@ -658,9 +659,10 @@ def payment_completed_view(request):
             # Handle the case where the coupon is not found or is invalid
             pass
 
-
-    
-
+    order_id = request.session.get('order_id')
+    order = CartOrder.objects.get(id=order_id, user=request.user)
+    order.paid_status = True
+    order.save()
 
     context = {
         'cart_data': request.session['cart_data_obj'],
